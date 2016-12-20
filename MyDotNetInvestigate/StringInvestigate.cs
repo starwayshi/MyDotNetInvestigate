@@ -68,7 +68,7 @@ namespace MyDotNetInvestigate
             string result2 = $"{a}-{b}-{c:yyyy/MM/dd mm:ss fff}-{d}-{e}";
             string result3 = string.Format("{0}-{1}-{2:yyyy/MM/dd mm:ss fff}-{3}-{4}", a, b, c, d, e);
 
-            string result4 = $"¥{b - a * 1.0m / 100 * 1.0m:f2}+{a}积分";
+            string result4 = $"¥{b - a * 1.1m / 100 * 1.0m:f2}+{a}积分";
 
         }
 
