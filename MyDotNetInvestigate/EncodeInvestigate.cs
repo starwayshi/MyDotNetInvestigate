@@ -10,8 +10,12 @@ namespace MyDotNetInvestigate
     public class EncodeInvestigate
     {
 
-        public void Execute(){
-            foo1();
+        public void Execute()
+        {
+            var actions = new List<Action> { foo1 };
+            var tasks = new List<Task>();
+            actions.ForEach(o => tasks.Add(Task.Run(o)));
+            Task.WaitAll(tasks.ToArray());
         }
 
         private void foo1()
@@ -22,6 +26,7 @@ namespace MyDotNetInvestigate
             string result4 = HttpUtility.UrlEncode("{\"Sysid\":654987,\"Uid\":\"654658\",\"Ext\":\"`1234567890-=\\[];',./~!@#$%^&*()_+|{}:\"<>?\"}");
             string result5 = HttpUtility.UrlDecode(result4);
         }
+
 
     }
 }

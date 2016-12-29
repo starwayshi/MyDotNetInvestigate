@@ -19,7 +19,10 @@ namespace MyDotNetInvestigate
         /// </remarks>
         public void Execute()
         {
-            foo1(); foo2(); foo3();
+            var actions = new List<Action> { foo1, foo2, foo3 };
+            var tasks = new List<Task>();
+            actions.ForEach(o => tasks.Add(Task.Run(o)));
+            Task.WaitAll(tasks.ToArray());
         }
 
         private void foo1()
@@ -31,7 +34,7 @@ namespace MyDotNetInvestigate
             int result3 = request ?? default(int);
             int result4 = request.GetValueOrDefault(3);
             int result5 = request ?? 3;
-            //var result6 = request.Value; //throw exception!
+            var result6 = request.Value; //throw exception!
         }
 
         private void foo2()
@@ -43,7 +46,7 @@ namespace MyDotNetInvestigate
             bool result3 = request ?? default(bool);
             bool result4 = request.GetValueOrDefault(true);
             bool result5 = request ?? true;
-            //var result6 = request.Value; //throw exception!
+            var result6 = request.Value; //throw exception!
         }
 
         private void foo3()
@@ -55,7 +58,7 @@ namespace MyDotNetInvestigate
             DateTime result3 = request ?? default(DateTime);
             DateTime result4 = request.GetValueOrDefault(new DateTime(2016, 12, 15));
             DateTime result5 = request ?? new DateTime(2016, 12, 15);
-            //var result6 = request.Value; //throw exception!
+            var result6 = request.Value; //throw exception!
         }
 
     }

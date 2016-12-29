@@ -14,8 +14,10 @@ namespace MyDotNetInvestigate
 
         public void Execute()
         {
-            var callList = new List<Action>() { foo1, foo2, foo3, foo4, foo5, foo6 };
-            callList.ForEach(a => a.Invoke());
+            var actions = new List<Action> { foo1, foo2, foo3, foo4, foo5, foo6 };
+            var tasks = new List<Task>();
+            actions.ForEach(o => tasks.Add(Task.Run(o)));
+            Task.WaitAll(tasks.ToArray());
         }
 
         enum OrderByType
@@ -33,7 +35,7 @@ namespace MyDotNetInvestigate
             /// <summary>
             /// 上架时间
             /// </summary>
-            [Description("上架时间aaaaa")]
+            [Description("上架时间")]
             OnSaleTime = 3,
 
             /// <summary>
@@ -69,6 +71,8 @@ namespace MyDotNetInvestigate
             string result3 = string.Format("{0}-{1}-{2:yyyy/MM/dd mm:ss fff}-{3}-{4}", a, b, c, d, e);
 
             string result4 = $"¥{b - a * 1.1m / 100 * 1.0m:f2}+{a}积分";
+
+            string result5 = string.Concat(new List<int> { 1, 2, 3, 4, 5 });
 
         }
 
@@ -141,11 +145,17 @@ namespace MyDotNetInvestigate
         {
             string keyword = "123%4_56";
 
-            string result = keyword.Replace("%", "[%]").Replace("_", "[_]");
+            string result1 = keyword.Replace("%", "[%]").Replace("_", "[_]");
 
             string a1 = null;
             string a2 = "aa";
             string a3 = a1 == a2 ? a1 : (a1 + Environment.NewLine + a2).Trim();
+
+            string result2 = $@"(@Table_MaxID{a1}
+                                   ,{a2}--[SaleOrderId]
+                                   ,{a3}--[OrderID]
+                                   ,GETDATE())";
+            string result3 = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {a2} <br/>";
 
         }
 

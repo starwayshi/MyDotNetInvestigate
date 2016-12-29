@@ -11,7 +11,10 @@ namespace MyDotNetInvestigate
 
         public void Execute()
         {
-            foo1();
+            var actions = new List<Action> { foo1 };
+            var tasks = new List<Task>();
+            actions.ForEach(o => tasks.Add(Task.Run(o)));
+            Task.WaitAll(tasks.ToArray());
         }
 
         private class MyInvoker

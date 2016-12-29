@@ -10,10 +10,10 @@ namespace MyDotNetInvestigate
     {
         public void Execute()
         {
-            foo1();
-            foo2();
-            foo3();
-            foo4();
+            var actions = new List<Action> { foo1, foo2, foo3, foo4 };
+            var tasks = new List<Task>();
+            actions.ForEach(o => tasks.Add(Task.Run(o)));
+            Task.WaitAll(tasks.ToArray());
         }
 
         private void foo1()
@@ -56,8 +56,8 @@ namespace MyDotNetInvestigate
             {
                 System.Threading.Thread.Sleep(10);
                 decimal result = request * 0.1m + decimal.Multiply(request * 0.1m, (decimal)new Random().NextDouble());
-                result = result < 1m 
-                    ? Math.Ceiling(result *100) / 100
+                result = result < 1m
+                    ? Math.Ceiling(result * 100) / 100
                     : Math.Ceiling(result);
 
                 Utility.WriteLog(result.ToString());

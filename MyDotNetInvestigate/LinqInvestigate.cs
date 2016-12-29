@@ -32,7 +32,10 @@ namespace MyDotNetInvestigate
     {
         public void Execute()
         {
-            foo1(); foo2(); foo3(); foo4(); foo5(); foo6();
+            var actions = new List<Action> { foo1, foo2, foo3, foo4, foo5, foo6 };
+            var tasks = new List<Task>();
+            actions.ForEach(o => tasks.Add(Task.Run(o)));
+            Task.WaitAll(tasks.ToArray());
         }
 
         private void foo1()
@@ -63,7 +66,7 @@ namespace MyDotNetInvestigate
             });
 
             var result1 = targets.Find(u => u.ChildIntElement == 10);
-            var result2 = targets.First(u => u.ChildIntElement == 11);  //may exception!!
+            var result2 = targets.First(u => u.ChildIntElement == 110);  //throw exception!!
             var result3 = targets.FirstOrDefault(u => u.ChildIntElement == 10);
             var result4 = targets.FindAll(u => u.ChildIntElement == 11);
             var result5 = targets.Any(u => u.ChildIntElement == 15);
@@ -294,19 +297,19 @@ namespace MyDotNetInvestigate
             CreateEntities();
             //inner join
             var result1 = (from c in customers
-                         join o in orders on c.CustomerId equals o.CustomerId
-                         select c).ToList();
+                           join o in orders on c.CustomerId equals o.CustomerId
+                           select c).ToList();
 
             //group join
             var result2 = (from c in customers
-                         join o in orders on c.CustomerId equals o.CustomerId into os
-                         select new { c, os }).ToList();
+                           join o in orders on c.CustomerId equals o.CustomerId into os
+                           select new { c, os }).ToList();
 
             //left join
             var result3 = (from c in customers
-                         join o in orders on c.CustomerId equals o.CustomerId into os
-                         from o2 in os.DefaultIfEmpty()
-                         select new { c, o2 }).ToList();
+                           join o in orders on c.CustomerId equals o.CustomerId into os
+                           from o2 in os.DefaultIfEmpty()
+                           select new { c, o2 }).ToList();
         }
     }
 }

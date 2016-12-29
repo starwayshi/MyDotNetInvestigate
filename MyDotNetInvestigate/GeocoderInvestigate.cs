@@ -10,8 +10,10 @@ namespace MyDotNetInvestigate
     {
         public void Execute()
         {
-            var callList = new List<Action>() { foo1, foo2, foo3 };
-            callList.ForEach(a => a.Invoke());
+            var actions = new List<Action> { foo1, foo2 };
+            var tasks = new List<Task>();
+            actions.ForEach(o => tasks.Add(Task.Run(o)));
+            Task.WaitAll(tasks.ToArray());
         }
 
 

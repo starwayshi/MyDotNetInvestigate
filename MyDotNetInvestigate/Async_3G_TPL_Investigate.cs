@@ -20,7 +20,7 @@ namespace MyDotNetInvestigate
     {
         public void Execute()
         {
-            foo1();
+            new List<Action> { foo1 }.ForEach(o => o.Invoke());
         }
 
         IEnumerable<int> target = Enumerable.Range(100000000, 100000);
@@ -46,13 +46,7 @@ namespace MyDotNetInvestigate
             stopwatch.Start();
             func();
             stopwatch.Stop();
-            Utility.WriteLog("-------------------------");
-            Utility.WriteLog("      {0} 耗时: {1}ms", name, stopwatch.ElapsedMilliseconds);
-            Utility.WriteLog("-------------------------");
+            Utility.WriteLog("{0} 耗时: {1}ms", name, stopwatch.ElapsedMilliseconds);
         }
-
-
     }
-
-
 }

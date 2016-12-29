@@ -11,9 +11,11 @@ namespace MyDotNetInvestigate
     {
         public void Execute()
         {
-            foo1(); foo2();
+            var actions = new List<Action> { foo1, foo2 };
+            var tasks = new List<Task>();
+            actions.ForEach(o => tasks.Add(Task.Run(o)));
+            Task.WaitAll(tasks.ToArray());
         }
-
 
         private void foo1()
         {

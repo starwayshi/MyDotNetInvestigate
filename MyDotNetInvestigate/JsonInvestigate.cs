@@ -10,27 +10,31 @@ using System.Web.Script.Serialization;
 
 namespace MyDotNetInvestigate
 {
-    public class ReadOnlyClass
-    {
-        public int Element1
-        {
-            get
-            {
-                return 2;
-            }
-        }
 
-        public readonly int Element2;
-
-        public int Element3;
-    }
 
     public class JsonInvestigate
     {
         public void Execute()
         {
-            var callList = new List<Action>() { foo1, foo2, foo3, foo4, foo5 };
-            callList.ForEach(a => a.Invoke());
+            var actions = new List<Action> { foo1, foo2, foo3, foo4, foo5 };
+            var tasks = new List<Task>();
+            actions.ForEach(o => tasks.Add(Task.Run(o)));
+            Task.WaitAll(tasks.ToArray());
+        }
+
+        class ReadOnlyClass
+        {
+            public int Element1
+            {
+                get
+                {
+                    return 2;
+                }
+            }
+
+            public readonly int Element2;
+
+            public int Element3;
         }
 
         public static string SerializeJSON<T>(T instance)
@@ -185,7 +189,7 @@ namespace MyDotNetInvestigate
             var result1 = JsonConvert.SerializeObject(result);
             var result2 = SerializeJSON<object>(result);
         }
-        
+
 
     }
 }

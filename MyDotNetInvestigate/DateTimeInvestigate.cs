@@ -10,7 +10,10 @@ namespace MyDotNetInvestigate
     {
         public void Execute()
         {
-            foo1(); foo2(); foo3(); foo4(); foo5();
+            var actions = new List<Action> { foo1, foo2, foo3, foo4, foo5 };
+            var tasks = new List<Task>();
+            actions.ForEach(o => tasks.Add(Task.Run(o)));
+            Task.WaitAll(tasks.ToArray());
         }
 
         private void foo1()
@@ -26,8 +29,6 @@ namespace MyDotNetInvestigate
             string datetime9 = DateTime.Now.ToLongTimeString();
             string datetime10 = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff");
             string datetime11 = DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss.fff");
-
-
         }
 
         private void foo2()

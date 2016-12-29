@@ -94,7 +94,6 @@
     <Compile Include="RegExpInvestigate.cs" />
     <Compile Include="NullableInvestigate.cs" />
     <Compile Include="StringInvestigate.cs" />
-    <Compile Include="TaskInvestigate.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
